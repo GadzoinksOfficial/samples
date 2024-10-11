@@ -1,0 +1,472 @@
+{
+  "last_node_id": 41,
+  "last_link_id": 78,
+  "nodes": [
+    {
+      "id": 10,
+      "type": "VAELoader",
+      "pos": {
+        "0": 861,
+        "1": 808
+      },
+      "size": {
+        "0": 342.8424072265625,
+        "1": 58
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            47
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "ae.safetensors"
+      ]
+    },
+    {
+      "id": 8,
+      "type": "VAEDecode",
+      "pos": {
+        "0": 1248,
+        "1": 192
+      },
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 58
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 47
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            74,
+            75
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      }
+    },
+    {
+      "id": 27,
+      "type": "UnetLoaderGGUF",
+      "pos": {
+        "0": -405,
+        "1": 210
+      },
+      "size": {
+        "0": 315,
+        "1": 58
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            76
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UnetLoaderGGUF"
+      },
+      "widgets_values": [
+        "flux1-dev-Q4_1.gguf"
+      ]
+    },
+    {
+      "id": 11,
+      "type": "DualCLIPLoader",
+      "pos": {
+        "0": -418,
+        "1": 332
+      },
+      "size": {
+        "0": 315,
+        "1": 106
+      },
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            77,
+            78
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "DualCLIPLoader"
+      },
+      "widgets_values": [
+        "clip_l.safetensors",
+        "t5xxl_fp8_e4m3fn.safetensors",
+        "flux"
+      ]
+    },
+    {
+      "id": 31,
+      "type": "CLIPTextEncode",
+      "pos": {
+        "0": 379,
+        "1": 458
+      },
+      "size": {
+        "0": 422.84503173828125,
+        "1": 164.31304931640625
+      },
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 78
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            56
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Negative Prompt"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 5,
+      "type": "EmptyLatentImage",
+      "pos": {
+        "0": 467,
+        "1": 692
+      },
+      "size": {
+        "0": 315,
+        "1": 106
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            53
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptyLatentImage"
+      },
+      "widgets_values": [
+        848,
+        720,
+        1
+      ]
+    },
+    {
+      "id": 30,
+      "type": "KSampler",
+      "pos": {
+        "0": 871,
+        "1": 259
+      },
+      "size": {
+        "0": 315,
+        "1": 474
+      },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 76
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 66
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 56
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 53
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            58
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        759366334495399,
+        "randomize",
+        22,
+        1,
+        "euler",
+        "simple",
+        1
+      ]
+    },
+    {
+      "id": 41,
+      "type": "SaveImage",
+      "pos": {
+        "0": 1462,
+        "1": 406
+      },
+      "size": [
+        488.67522990336283,
+        289.65188002824914
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 75
+        }
+      ],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "ComfyUI"
+      ]
+    },
+    {
+      "id": 40,
+      "type": "Gadzoinks",
+      "pos": {
+        "0": 1560,
+        "1": -39
+      },
+      "size": [
+        315,
+        342
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 74
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "Gadzoinks"
+      },
+      "widgets_values": [
+        true,
+        false,
+        "17",
+        "goya1"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "CLIPTextEncode",
+      "pos": {
+        "0": 363,
+        "1": 231
+      },
+      "size": {
+        "0": 422.84503173828125,
+        "1": 164.31304931640625
+      },
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 77
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            66
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "a man riding a horse, dressed in 18th century european attire. he his holding a phone in one hand and staring at it. the horse is galloping. style of fancisco goya. realistic , detailed . "
+      ]
+    }
+  ],
+  "links": [
+    [
+      47,
+      10,
+      0,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      53,
+      5,
+      0,
+      30,
+      3,
+      "LATENT"
+    ],
+    [
+      56,
+      31,
+      0,
+      30,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      58,
+      30,
+      0,
+      8,
+      0,
+      "LATENT"
+    ],
+    [
+      66,
+      6,
+      0,
+      30,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      74,
+      8,
+      0,
+      40,
+      0,
+      "IMAGE"
+    ],
+    [
+      75,
+      8,
+      0,
+      41,
+      0,
+      "IMAGE"
+    ],
+    [
+      76,
+      27,
+      0,
+      30,
+      0,
+      "MODEL"
+    ],
+    [
+      77,
+      11,
+      0,
+      6,
+      0,
+      "CLIP"
+    ],
+    [
+      78,
+      11,
+      0,
+      31,
+      0,
+      "CLIP"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 1.586309297171505,
+      "offset": [
+        -238.76618050626186,
+        -57.696612354063454
+      ]
+    }
+  },
+  "version": 0.4
+}

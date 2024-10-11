@@ -1,0 +1,35 @@
+Getting Flux to work with ComfyUI on my 64gb MacStudio
+ - should work on any Mac with 32gb Ram or more
+ 
+Flux and Mac do NOT go together easily
+After trying on and off for a month, I finally got something to work but its still 7x slower then my Windows PC with a Nvidia 4070
+
+Speed comparison 
+MAC:   10.88s/it
+Windows+4070 using flux-dev-Q5 : 1.91s/it
+Windows+4070 using flux-dev-Q5_K_S : 1.52s/it
+
+Here are the steps as best I remember,
+
+You will need to use the gguf version of the flux models, not the .safetensor version. Do not use any optimized models (these usually have a K in the name) . https://civitai.com/models/647237?modelVersionId=725532.  I use Q4.1 , others were even slower.
+
+Activate your environment, in my case its named 'venv', and install latest torch.
+source venv/bin/activate
+ venv/bin/pip  install --upgrade --force-reinstall  --pre torch torchaudio torchvision  --index-url https://download.pytorch.org/whl/nightly/
+
+
+File system 
+ComfyUI/models/unet
+  Put the gguf files here
+ComfyUI/models/clip
+   clip_l.safetensors , t5xxl_fp8_e4m3fn.safetensors  , model.safetensors
+  ( available at  https://huggingface.co/comfyanonymous/flux_text_encoders/tree/main ) 
+  https://huggingface.co/camenduru/PuLID/resolve/main/clip-vit-large-patch14/model.safetensors
+
+ComfyUI/models/vae
+  ae.safetensors
+  ( https://huggingface.co/second-state/FLUX.1-schnell-GGUF/blob/main/ae.safetensors  )
+
+In ComfyUI make sure you have comfyui manager installed, and then load my example json, or drag in an example image. You will probably have some missing nodes, use comfyui manager to load missing nodes and then restart.
+You can remove the gadzoinks node, its used to save the image at the end.
+samples are at  
